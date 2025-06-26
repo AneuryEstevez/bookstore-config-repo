@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: auth-service
+              uri: lb://auth-service
+              predicates:
+                - Path=/api/auth/**
+            - id: catalog-service
+              uri: lb://catalog-service
+              predicates:
+                - Path=/api/catalog/**
+            - id: cart-service
+              uri: lb://cart-service
+              predicates:
+                - Path=/api/cart/**,/api/order/**
+              filters:
+                - JwtValidation
+            - id: review-service
+              uri: lb://review-service
+              predicates:
+                - Path=/api/review/**
+              filters:
+                - JwtValidation
+            - id: notify-report-service
+              uri: lb://notify-report-service
+              predicates:
+                - Path=/api/notify/**
+              filters:
+                - JwtValidation
+token:
+  secret:
+    key: cf5d2af9e67df53719a3b84fda2e2248015dbc2e01bf867b66325020088fac36
+eureka:
+  client:
+    service-url:
+      .defaultZone: http://${EUREKA_SERVER:localhost}:8761/eureka
+server:
+  port: 8080
