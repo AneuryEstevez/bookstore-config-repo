@@ -32,6 +32,10 @@ spring:
                 - Path=/api/notify/**
               filters:
                 - JwtValidation
+          globalcors:
+            cors-configurations:
+              '[/**]':
+                allowedOrigins: "http://localhost:5173"
 token:
   secret:
     key: cf5d2af9e67df53719a3b84fda2e2248015dbc2e01bf867b66325020088fac36
